@@ -3,14 +3,13 @@
 Plugin Name: Persistent Header
 Plugin URI: https://github.com/clas-web/persistent-header
 Description: This plugin keeps the header images set as you change themes.
-Version: 1.0.0
+Version: 1.0.1
 Author: Aaron Forsyth
 Author URI: https://www.linkedin.com/in/aaron-forsyth-4a5634122/
 GitHub Plugin URI: https://github.com/clas-web/persistent-header
 */
 
-
-add_action('pre_update_option_stylesheet', 'ph_pre_update_option_stylesheet');
+add_action('pre_update_option_stylesheet', 'ph_pre_update_option_stylesheet', 10, 2);
 add_action('switch_theme', 'ph_switch_theme');
 
 function ph_pre_update_option_stylesheet($stylesheet, $old_stylesheet){
@@ -21,8 +20,9 @@ function ph_pre_update_option_stylesheet($stylesheet, $old_stylesheet){
 	$header_images = get_uploaded_header_images();
 	foreach ($header_images as $header_image) {
 		$image_post = $header_image['attachment_id'];
-		update_post_meta($image_post, '_wp_attachment_is_custom_header', $stylesheet, $old_stylesheet); 
+		update_post_meta($image_post, '_wp_attachment_is_custom_header', $stylesheet, $old_stylesheet);
 	}
+		
     return $stylesheet;
 }
 
